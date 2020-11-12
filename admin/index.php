@@ -34,6 +34,19 @@
                   <h4 class="modal-title">Add New Faculty</h4>
                 </div>
                 <div class="modal-body"> 
+
+                <template v-if="success">
+                  <div class="alert alert-success" role="alert">
+                    {{ message }}
+                  </div>
+                </template>
+
+                <template v-if="success == false">
+                  <div class="alert alert-danger" role="alert">
+                    Something went wrong. Please try again later.
+                  </div>
+                </template> 
+
                   <form autocomplete="off">
                   <div class="row"> 
                       <div class="col-sm-6">
@@ -112,23 +125,36 @@
                     lastname: '',
                     type: 'Faculty',
                     email: '',
-                    password: '' 
+                    password: '', 
+                    success: null,
+                    message: ''
                 },
                 methods:{
                   toggleshowModal: function (){
                     this.showModal = !this.showModal;
                   },
-                  saveFaculty: function (){
-                  //   alert("firstname: "+ this.firstname +"\n"+
-                  //         "middlename: "+ this.middlename +"\n"+
-                  //         "lastname: "+ this.lastname +"\n"+
-                  //         "type: "+ this.type +"\n"+
-                  //         "email: "+ this.email +"\n"+
-                  //         "password: "+ this.password);
+                  saveFaculty: function (){ 
                     axios.post("controller/index.controller.php", {
-                      action: 'saveFaculty'
+                      action:     'saveFaculty',
+                      firstname:  this.firstname,
+                      middlename: this.middlename,
+                      lastname:   this.lastname,
+                      type:       this.type,
+                      email:      this.email,
+                      password:   this.password
                     }).then(function(response){
-                      alert(response.data.message);
+                      if(response.data.success){
+                        app.firstname  = '',
+                        app.middlename = '',
+                        app.lastname   = '',
+                        app.type       = '',
+                        app.email      = '',
+                        app.password   = '',
+                        app.success    = true,
+                        app.message    = "New Faculty Inserted. "
+                      }else{ 
+                        app.success    = false
+                      } 
                     }); 
                    }
                 }

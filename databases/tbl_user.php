@@ -17,12 +17,7 @@ $result = "create table ". $tablename ." (
     updated_at timestamp default current_timestamp on update current_timestamp
 )";
 
-$result = DB::query($result);
-
-if($result){
-    echo "Table ". $tablename ." is successfully created. ";
-}else{
-    print_r($result);
-}
+$result = DB::query($result); 
+echo print_r($result); 
 
 ?>
