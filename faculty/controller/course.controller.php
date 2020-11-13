@@ -66,23 +66,33 @@ elseif(isset($_POST['btn_savePost'])){
    header("location: ../managecourse.php?course=".$data['crs_id']."");
  
 }
+elseif(isset($_POST['btn_saveQstnnr'])){
+    $data = [
+        'qstnnr_title'          => $_POST['qstnnr_title'],
+        'qstnnr_description'    => $_POST['qstnnr_description'],
+        'qstnnr_type'           => $_POST['qstnnr_type'],
+        'qstnnr_item'           => $_POST['qstnnr_item'],
+        'usr_id'                => $_SESSION['loggedID'],
+        'crs_id'                => $_POST['crs_id']
+    ];
 
+    $result = "INSERT INTO tbl_questionnaire (qstnnr_title, qstnnr_description, qstnnr_type, qstnnr_item, usr_id, crs_id) VALUES(
+        :qstnnr_title, :qstnnr_description, :qstnnr_type, :qstnnr_item, :usr_id, :crs_id
+    )";
 
-// $title = $_POST['title']; 
-// $description = $_POST['description'];
-// $file_name = $_FILES['file_post']['name']; 
-// if ($_FILES['file_post']['name'] == "") {
-//     $type = null;
-//     $location = null;
-//     $filename = null;
-// }else{
-//     $type = $_FILES['file_post']['type']; 
-//     $type = explode('/', $type);
-//     $type = $type[0];
-
-//     $target = "Uploads/".basename($_FILES['file_post']['name']); 
-//     move_uploaded_file($_FILES['file_post']['tmp_name'], $target);  
-    
+    $result = DB::query($result, $data);   
+    unset($data); 
+    if($result){
+        $data['message'] = "New Questionnaire Created. "; 
+        $data['success'] = true; 
+    }else{
+        $data['message'] = "Something went wrong. Please Try again later. ";
+        $data['success'] = false;
+    } 
+    $data['$crs_id'] = $_POST['crs_id'];
+    $_SESSION['temp'] = $data;
+    header("location: ../managecourse_questionnaire.php?course=".$data['$crs_id']."");
+}
 ?>
 
  

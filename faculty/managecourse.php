@@ -105,7 +105,7 @@ $results_post = DB::query($results_post, $data);
 <?php } ?>
 
                 <div class="panel-footer">
-                <a href="managepost.php?course=<?= $data['crs_id'] ?>&post=<?=$result['pst_id']?>" class="btn btn-info btn-sm">Manage Post</a> 
+                <a target="_blank" href="managepost.php?course=<?= $data['crs_id'] ?>&&post=<?=$result['pst_id']?>" class="btn btn-info btn-sm">View Post</a> 
               </div>   
             </div>
         </div> 
@@ -114,9 +114,11 @@ $results_post = DB::query($results_post, $data);
 <?php if(count($results_post) == 0){
     echo "empty";
 } ?>
+
+
+
  <!-- ================================================= Modal  -->
-    <!-- modal -->
-    
+    <!-- modal --> 
 <form autocomplete="off" method="post" action="controller/course.controller.php" enctype="multipart/form-data">  
     <template v-if="showAddPost">  
             <div class="popup" tabindex="-1">
