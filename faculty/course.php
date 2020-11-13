@@ -29,9 +29,9 @@ $results = DB::query($results, array(':usr_id' => $_SESSION['loggedID']));
                     <div class="panel panel-info">  
                         <div class="panel-body">
                             <h2><?= $result['crs_descriptitle'] ?></h2> 
-                            <p  class="paragrah"><?= "- ". $result['crs_number'] ." -" ?></p> 
-                            <p  class="paragrah"><?= "- ".$result['crs_section'] ." -"?></p> 
-                            <p  class="paragrah"><?= "- ".$result['crs_time']. " ". $result['crs_days']." -" ?></p> 
+                            <p  class="paragrah"><?= ": ". $result['crs_number'] ." :" ?></p> 
+                            <p  class="paragrah"><?= ": ".$result['crs_section'] ." : "?></p> 
+                            <p  class="paragrah"><?= ": ".$result['crs_time']. " ". $result['crs_days']." : "?></p> 
                         </div>
                         <div class="panel-heading">
                             <a href="managecourse.php?course=<?= $result['crs_id'] ?>" class="btn btn-default"> Manage </a> 

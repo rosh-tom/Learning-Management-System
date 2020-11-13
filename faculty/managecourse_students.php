@@ -49,7 +49,7 @@ $result = DB::query($result, array(':crs_id'=>$crs_id, ':usr_id' => $_SESSION['l
         <div class="row">
             <div class="col-sm-12">
                 <ol class="breadcrumb">
-                    <li><a href="managecourse_questionnaire.php?course=<?= $crs_id ?>">Home</a></li>
+                    <li><a href="managecourse.php?course=<?= $crs_id ?>">Home</a></li>
                     <li><a href="managecourse_questionnaire.php?course=<?= $crs_id ?>">Questionnaire</a></li>
                     <li><a href="managecourse_forums.php?course=<?= $crs_id ?>">Forums</a></li>
                     <li class="active"> Students </li>
@@ -61,14 +61,8 @@ $result = DB::query($result, array(':crs_id'=>$crs_id, ':usr_id' => $_SESSION['l
         <div class="col-sm-12 margin-b-20">   
             <h2>Students</h2>
         </div>
-    </div>
- 
-
-
-
-        <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++/content  --> 
-
-
+    </div> 
+        <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++/content  -->  
             
 </div>
 <!-- / #index  -->

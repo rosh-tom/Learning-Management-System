@@ -1,21 +1,20 @@
 <?php include 'includes/header.php';
 
-include '../classes/db.php'; 
- 
+include '../classes/db.php';  
 $data = [
+    'pst_id' => $_GET['post'],
     'crs_id'=> $_GET['course'],
     'usr_id' => $_SESSION['loggedID']
 ];
 
 $result_course = "SELECT * FROM tbl_course WHERE crs_id = :crs_id AND usr_id = :usr_id";
-$result_course = DB::query($result_course, $data); 
+$result_course = DB::query($result_course, array(':crs_id'=>$data['crs_id'], ':usr_id'=>$data['usr_id'])); 
 
-$results_post = "SELECT * FROM tbl_post WHERE crs_id = :crs_id and usr_id = :usr_id ORDER BY created_at DESC";
-$results_post = DB::query($results_post, $data);
+$result_post = "SELECT * FROM tbl_post WHERE pst_id = :pst_id";
+$result_post = DB::query($result_post, array(':pst_id'=>$data['pst_id']));
 
- 
  ?>
-        <title>Manage Course - SDSSU CANTILAN LMS</title> 
+        <title>Manage Post - SDSSU CANTILAN LMS</title> 
         <style>
             a:hover{
                 cursor: pointer;
@@ -30,7 +29,7 @@ $results_post = DB::query($results_post, $data);
 
         <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++ content  --> 
         <div class="buttons">
-            <a href="course.php" class="btn btn-info btn-sm"><b><</b> Back</a> 
+            <a href="managecourse.php?course=<?=$data['crs_id']?>" class="btn btn-info btn-sm"><b><</b> Back</a> 
             <button @click="toggleShowJumbo()" class="btn btn-warning btn-sm float-r">
                 <template v-if="showJumbo">
                     <img src="../icons/hide.svg" class="icon_visibility">
@@ -38,9 +37,7 @@ $results_post = DB::query($results_post, $data);
                 <template v-if="!showJumbo">
                     <img src="../icons/show.svg" class="icon_visibility">
                 </template> 
-            </button>
-            <button @click="toggleShowJumbo()" class="btn btn-success btn-sm float-r margin-r-20">Manage
-            </button>
+            </button> 
         </div>
         
 
@@ -55,65 +52,9 @@ $results_post = DB::query($results_post, $data);
             </div> 
         </template>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <ol class="breadcrumb">
-                    <li  class="active">Home </li>
-                    <li><a href="managecourse_questionnaire.php?course=<?= $data['crs_id'] ?>">Questionnaire</a></li>
-                    <li><a href="managecourse_forums.php?course=<?= $data['crs_id'] ?>">Forums</a></li>
-                    <li><a href="managecourse_students.php?course=<?= $data['crs_id'] ?>">Students</a></li>
-                </ol>
-            </div>
-        </div>
+
+<?php echo print_r($result_post) ?>
  
-    <div class="row">  
-        <div class="col-sm-12 margin-b-20">   
-            <h2>Posts <button class="btn btn-primary btn-sm" @click="toggleshowAddPost()"> Add + </button></h2>
-        </div>
-    </div>
-<?php foreach($results_post as $result){ ?>
-        <div class="col-sm-12">
-            <div class="panel panel-default"> 
-                <div class="panel-heading">
-                     <small><?= $result['created_at'] ?></small>
-
-                    <br><br>
-                    <p><b><?= $result['pst_title'] ?></b></p>
-                    <p><?= $result['pst_description'] ?></p>
-                </div>
-<?php if($result['pst_type'] == 'video'){ ?>
-                <div class="panel-body">
-                    <center>
-                        <video width="80%"controls>
-                                <source src="../<?= $result['pst_location'] ?>" type="video/mp4">
-                        </video>
-                    </center>
-                </div>
-<?php } ?>
-<?php if($result['pst_type'] == 'application'){ ?>
-                <div class="panel-body">
-                    <center><h4>Document</h4></center>
-                <h3><a href="../<?= $result['pst_location'] ?>"><img src="../icons/document.svg" alt="" width="10%"></a><?= $result['pst_filename'] ?></h3>
-                </div>
-<?php } ?>
-<?php if($result['pst_type'] == 'image'){ ?>
-                <div class="panel-body"> 
-                    <center>
-                        <img src="../<?= $result['pst_location'] ?>" width="50%" alt=""> 
-                    </center>
-                </div>
-<?php } ?>
-
-                <div class="panel-footer">
-                <a href="managepost.php?course=<?= $data['crs_id'] ?>&post=<?=$result['pst_id']?>" class="btn btn-info btn-sm">Manage Post</a> 
-              </div>   
-            </div>
-        </div> 
-<?php } ?>
-
-<?php if(count($results_post) == 0){
-    echo "empty";
-} ?>
  <!-- ================================================= Modal  -->
     <!-- modal -->
     
@@ -127,7 +68,7 @@ $results_post = DB::query($results_post, $data);
                   <h4 class="modal-title">Post</h4>
                 </div>
                 <div class="modal-body">   
-                    <input type="hidden" name="crs_id" value="<?= $data['crs_id'] ?>">
+                    <input type="hidden" name="crs_id" value="<?= $crs_id ?>">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group"> 
@@ -180,7 +121,7 @@ $results_post = DB::query($results_post, $data);
     var app = new Vue({
         el: "#index",
         data: {
-             showJumbo: true, 
+             showJumbo: false, 
              showAddPost: false
         },
         methods: {
