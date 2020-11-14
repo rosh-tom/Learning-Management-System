@@ -160,6 +160,10 @@ body {
   margin: 0px !important;
   padding: 0px !important;
 }
+.paragraph{
+  margin: 0px !important;
+  padding: 0px !important;
+} 
 .icon_visibility{
   width: 16px;
 }
@@ -186,4 +190,31 @@ body {
 
 .qstnnr_manage{
   float: right; margin-top: -25px;
+}
+
+
+
+
+/* =================================================================================================== Questions  */
+
+.mrgn-b-2px{
+  margin-bottom: 2px;
+}
+
+.hover-primary:hover{
+  color: #337ab7;
+}
+
+.hover-success:hover{
+  color: #3c763d;
+}
+
+.hover-danger:hover{
+  color: #a94442;
+}
+
+/* ==================================================================================================== Student Index  */
+.p-error{
+  margin-top: 5px;
+  margin-left: 5px;
 }

@@ -27,8 +27,7 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
             <div class="container">
 <?php include 'includes/navigation.php'; ?>
 
-<div id="index"> 
-
+<div id="index">  
         <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++ content  --> 
         <div class="buttons">
             <a href="managecourse_questionnaire.php?course=<?= $data['crs_id'] ?>" class="btn btn-info btn-sm"><b><</b> Back</a> 
@@ -39,8 +38,7 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
                 <template v-if="!showJumbo">
                     <img src="../icons/show.svg" class="icon_visibility">
                 </template> 
-            </button>
-              </button>
+            </button> 
         </div>
         
 
@@ -56,7 +54,12 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
         </template>
 
     <div class="row" style="margin-bottom: -20px; margin-top: -10px">   
-        <center><h3><?= $result_qstnnr[0]['qstnnr_title'] ?></h3></center> 
+        <center>
+            <h3><?= $result_qstnnr[0]['qstnnr_title'] ?></h3>
+            <p class="mrgn-b-2px"><?= $result_qstnnr[0]['qstnnr_description']?></p>
+            <p class="mrgn-b-2px"><?= $result_qstnnr[0]['qstnnr_type']?></p>
+            <p class="mrgn-b-2px"><?= $result_qstnnr[0]['qstnnr_item']?> Items</p> 
+        </center> 
     </div> 
          
     <div class="row">  
@@ -65,37 +68,44 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
         </div>
     </div>   
 
-<div v-for="(question, index) in questions"> 
+<template v-for="(question, index) in questions"> 
     <div class="row">  
         <div class="col-sm-12">  
             <div class="well well-sm">
                 <p> {{qstn_length-index}}. {{ question.qstn_question }} </p>
                 <p style="margin-top: -5px; margin-left: 20px; margin-bottom: 2px;">A. {{question.a}}</p> 
-                <p style="margin-top: -5px; margin-left: 20px; margin-bottom: 2px;">A. {{question.a}}</p> 
+                <p style="margin-top: -5px; margin-left: 20px; margin-bottom: 2px;">B. {{question.b}}</p> 
+                <p style="margin-top: -5px; margin-left: 20px; margin-bottom: 2px;">C. {{question.c}}</p> 
+                <p style="margin-top: -5px; margin-left: 20px; margin-bottom: 2px;">D. {{question.d}}</p> 
+
+                <button class="hover-primary" @click="viewAnswer(question.qstn_id)">View Answer</button> 
+                <button class="hover-success">Edit</button> 
+                <button class="hover-danger" @click="deleteQuestion(question.qstn_id, qstn_length-index)">Delete</button>
+
             </div>
         <div> 
     </div> 
-</div>
+</template>
 <!-- /v-for  -->
 
  <!-- ================================================= Modal  -->
     <!-- modal --> 
-<form autocomplete="off">  
-    <template v-if="showAddQuestion">  
+<template v-if="showAddQuestion">  
+        
+    <form autocomplete="off">  
             <div class="popup" tabindex="-1">
               <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" @click="toggleShowAddQuestion()"><span>&times;</span></button>
-                  <h4 class="modal-title">Create Question</h4>
-                </div>
-                <div class="modal-body">   
-                    <input type="hidden" name="crs_id" v-model="v_crs_id">  
-                    <input type="hidden" name="qstnnr_id" v-model="v_qstnnr_id">  
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="toggleShowAddQuestion()"><span>&times;</span></button>
+                        <h4 class="modal-title">Create Question</h4>
+                    </div>
 
-                    
-
-<div v-if="qstn_length != full_qstn_length">
+                    <div class="modal-body">   
+                        <input type="hidden" name="crs_id" v-model="v_crs_id">  
+                        <input type="hidden" name="qstnnr_id" v-model="v_qstnnr_id">    
+    
+<template v-if="qstn_length != full_qstn_length">
                 <div class="row"> 
                       <div class="col-sm-12">
                         <div class="form-group"> 
@@ -158,32 +168,32 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
                         </div> 
                     </div> 
                 </div> 
-</div>
+</template>  
 
-<div v-if="qstn_length == full_qstn_length"> 
+<template v-if="qstn_length == full_qstn_length"> 
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group"> 
-                                <label>Question Items Already FUll</label> 
-                               
+                                <label>You have reached the maximum number of questions.</label>  
                             </div> 
                         </div> 
                     </div>
-</div>
+</template>
  
-                
+                </div>
                 <!-- /. modal body  -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default btn-sm" @click="toggleShowAddQuestion()">Close</button>
-                  <span v-if="qstn_length < full_qstn_length"><button type="button" class="btn btn-primary btn-sm" @click="toggleSaveQuestion()">Save</button></span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm" @click="toggleShowAddQuestion()">Close</button>
+                        <span v-if="qstn_length < full_qstn_length"><button type="button" class="btn btn-primary btn-sm" @click="toggleSaveQuestion()">Save</button></span>
+                    </div>
+                    <!-- /footer  -->
                 </div>
-                <!-- /footer  -->
-                </div>
-              </div>
             </div>
-          </template>
+        </div>
+        </form> 
+</template>
           <!-- /modal  -->  
-</form> 
+
         <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++/content  -->  
             
 </div>
@@ -234,7 +244,7 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
                         app.b = this.b,
                         app.c = this.c,
                         app.d = this.d,
-                        app.qstn_answer = this.qstn_answer  
+                        app.qstn_answer = 'a'  
                         app.fetchAllQuestion()
                     }else{
                         alert(response.data);
@@ -250,6 +260,24 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
                      app.questions = response.data;
                      app.qstn_length = app.questions.length
                 });
+            },
+            viewAnswer: function(id){
+                axios.post("controller/question.controller.php", {
+                    action: 'viewAnswer',
+                    qstn_id: id
+                }).then(function(response){
+                    alert("Correct Answer : "+ response.data);
+                });
+            },
+            deleteQuestion: function(id, number){
+                if(confirm("Are you sure you want to delete Question Number "+ number +" ?")){
+                    axios.post("controller/question.controller.php", {
+                        action: 'deleteQuestion',
+                        qstn_id: id
+                    }).then(function(response){
+                        app.fetchAllQuestion();
+                    });
+                } 
             }
         },
         created: function(){

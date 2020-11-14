@@ -7,7 +7,7 @@
 <?php include 'includes/navigation.php'; ?>
 
             <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++ content  -->
-            <form class="form-signin" action="controller/login.controller.php" method="post" autocomplete=" ">
+<form class="form-signin" action="controller/login.controller.php" method="post" autocomplete=" " >
                 <h2 class="form-signin-heading">Please sign in</h2>
 
                 <input 
@@ -35,7 +35,7 @@
 
                 <br>
 <?php if(isset($_SESSION['temp']['message'])){ ?>
-                <div class="alert alert-danger" role="alert">
+                <div class="alert <?= ($_SESSION['temp']['success']) ? 'alert-success' : 'alert-danger' ?>">
                     <?= $_SESSION['temp']['message'] ?>
                 </div>
 <?php } ?>
@@ -50,4 +50,3 @@
         <!-- /#index  --> 
 <br><br>
 <?php include 'includes/footer.php'; ?>
-<?php unset($_SESSION['temp']) ?>

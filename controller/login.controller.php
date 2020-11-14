@@ -14,9 +14,18 @@ if(isset($_POST['btn_signin'])){
 
    if(count($result) > 0){
        if(password_verify($data['pass'], $result[0]['usr_password'])){
-           $_SESSION['loggedType'] = $result[0]['usr_type'];
-           $_SESSION['loggedID'] = $result[0]['usr_id']; 
-           header("location: ../faculty/index.php");
+            $userType = $result[0]['usr_type'];
+            if($userType == 'faculty'){
+                $_SESSION['loggedType'] = $userType;
+                $_SESSION['loggedID'] = $result[0]['usr_id']; 
+                header("location: ../faculty/index.php");
+            }
+            elseif($userType == 'student'){
+                $_SESSION['loggedType'] = $userType;
+                $_SESSION['loggedID'] = $result[0]['usr_id']; 
+                header("location: ../student/index.php");
+            }
+ 
        }else{
            $data['message'] = "Password did not match the email"; 
            unset($data['password']);

@@ -2,19 +2,13 @@
 
 include 'db.php';
 
-$tablename = "tbl_question";
+$tablename = "tbl_studentcourse";
 
 $result = "create table ". $tablename ." (
-    qstn_id int(11) unsigned auto_increment primary key,
-    qstn_question text unique,
-    a varchar(100),
-    b varchar(100),
-    c varchar(100), 
-    d varchar(100), 
-    qstn_answer varchar(100),
+    stdcrse_id int(11) unsigned auto_increment primary key,
     usr_id int(11) not null,
-    crs_id int(11) not null, 
-    qstnnr_id int(11) not null,
+    crs_id int(11) not null,
+    active varchar(10),
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp on update current_timestamp
 )";

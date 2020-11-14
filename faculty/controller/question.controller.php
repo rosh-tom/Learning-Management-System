@@ -40,5 +40,20 @@
         $results = DB::query($results, $data); 
         echo json_encode($results);
     }
+    elseif($received_data->action == 'viewAnswer'){
+        $qstn_id = $received_data->qstn_id;
+
+        $correct_answer = "SELECT qstn_answer FROM tbl_question where qstn_id = :qstn_id";
+        $correct_answer = DB::query($correct_answer, array(':qstn_id'=>$qstn_id));
+
+        echo json_encode($correct_answer[0]['qstn_answer']);
+
+    }
+    elseif($received_data->action == 'deleteQuestion'){
+        $qstn_id = $received_data->qstn_id;
+
+        $delete = "DELETE FROM tbl_question where qstn_id = :qstn_id";
+        DB::query($delete, array(':qstn_id'=>$qstn_id)); 
+    }
 
 ?>

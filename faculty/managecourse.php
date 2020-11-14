@@ -3,11 +3,11 @@
 include '../classes/db.php'; 
  
 $data = [
-    'crs_id'=> $_GET['course'],
-    'usr_id' => $_SESSION['loggedID']
+    'crs_id'=> $_GET['course'], 
+    'usr_id'=> $_SESSION['loggedID']
 ];
 
-$result_course = "SELECT * FROM tbl_course WHERE crs_id = :crs_id AND usr_id = :usr_id";
+$result_course = "SELECT * FROM tbl_course WHERE crs_id = :crs_id and usr_id = :usr_id";
 $result_course = DB::query($result_course, $data); 
 
 $results_post = "SELECT * FROM tbl_post WHERE crs_id = :crs_id and usr_id = :usr_id ORDER BY created_at DESC";

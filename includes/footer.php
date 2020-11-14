@@ -5,3 +5,5 @@
         </div>
     </body>
 </html>
+
+<?php unset($_SESSION['temp']) ?>

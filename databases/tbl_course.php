@@ -11,7 +11,7 @@ $result = "create table ". $tablename ." (
     crs_descriptitle varchar(255) not null,
     crs_time varchar(100),
     crs_days varchar(100),
-    crs_code varchar(150),
+    crs_accesscode varchar(150),
     usr_id int(11) not null, 
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp on update current_timestamp
