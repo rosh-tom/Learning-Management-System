@@ -44,7 +44,7 @@ $results_qstnnr = DB::query($results_qstnnr, $data);
         <template v-if="showJumbo">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="jumbotron">
+                    <div class="jumbotron" style="padding: 5px;">
                         <h1><?= $result[0]['crs_descriptitle'] ?></h1> 
                         <h4><?= $result[0]['crs_number']?></h4>
                     </div>
@@ -82,18 +82,35 @@ $results_qstnnr = DB::query($results_qstnnr, $data);
                     <div class="panel-heading">  
                         <p style="margin-bottom: -5px; "> <span class="qstnnr_title"><?= $result['qstnnr_title'] ?></p>
                         <div class="qstnnr_manage"> 
-                            <button class="btn btn-success btn-sm"> Manage </button>
+                            <a href="editquestionnaire.php?questionnaire=<?= $result['qstnnr_id'] ?>&&course=<?= $data['crs_id'] ?>" 
+                                class="btn btn-info btn-sm" 
+                                > Edit 
+                            </a>
                         </div>
                     </div> 
-
+<?php 
+    $countQuestion = "SELECT * FROM tbl_question WHERE usr_id=:usr_id and qstnnr_id = :qstnnr_id";
+    $countQuestion = DB::query($countQuestion, array(':usr_id'=>$_SESSION['loggedID'], ':qstnnr_id'=>$result['qstnnr_id']));
+    if(count($countQuestion) > 0){
+        $countQuestion = count($countQuestion);
+    }else{
+        $countQuestion = '0';
+    }  
+?>
                     <div class="panel-body"> 
-                        <p><?= " - ". $result['qstnnr_description'] ?></p>
-                        <p><?= " - ". $result['qstnnr_type'] ?></p>
-                        <p><?= "- Item/s : ". $result['qstnnr_item'] ?></p>
+                        <p class="paragraph"><?= "Instruction: ". $result['qstnnr_description'] ?></p>
+                        <p class="paragraph"><?= "Type: &emsp; &emsp; ". $result['qstnnr_type'] ?></p>
+                        <p class="paragraph"><?= "Items:  &emsp; &emsp;". $countQuestion ." / ". $result['qstnnr_item'] ?> Items </p>
+                        <p class="paragraph">Status:&emsp; &emsp;<?= ($result['active'] == '0')? '<span class="text-danger">* Inactive</span>': '<span class="text-success">* Active</span>'?> </p>
                     </div>
 
                     <div class="panel-footer"> 
                         <a href="questionnaire_question.php?course=<?= $data['crs_id'] ?>&&questionnaire=<?= $result['qstnnr_id'] ?>" class="btn btn-primary"> Questionnaires </a>
+                        <?php if($result['active'] == '0'){ ?>
+                            <button class="btn btn-danger" @click="setActive(<?= $result['qstnnr_id'] ?>)">Activate</button>
+                        <?php }else{ ?>
+                            <button class="btn btn-success" @click="setInActive(<?= $result['qstnnr_id'] ?>)">Deactivate</button>
+                        <?php } ?>
                     </div>  
                 </div>  
             </div>
@@ -130,7 +147,7 @@ $results_qstnnr = DB::query($results_qstnnr, $data);
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group"> 
-                            <label for="email">Post Description</label> 
+                            <label for="email">Instruction / Description</label> 
                             <textarea name="qstnnr_description" cols="30" rows="3" class="form-control"></textarea> 
                         </div> 
                     </div> 
@@ -166,6 +183,9 @@ $results_qstnnr = DB::query($results_qstnnr, $data);
           <!-- /modal  -->  
 </form> 
 
+<!-- ======================================================================================================= EDIT MODAL  -->
+ 
+<!-- ======================================================================================================================== /Edit MOdal  -->
             
 </div>
 <!-- / #index  -->
@@ -175,15 +195,34 @@ $results_qstnnr = DB::query($results_qstnnr, $data);
     var app = new Vue({
         el: "#index",
         data: {
-             showJumbo: false, 
-             showAddQstnnr: false
+             showJumbo: true, 
+             showAddQstnnr: false,
+             showEditModal: false, 
         },
-        methods: {
+        methods: { 
             toggleShowJumbo: function(){
                 this.showJumbo = !this.showJumbo;
             },
+           
             toggleShowAddQstnnr: function(){
                 this.showAddQstnnr = !this.showAddQstnnr;
+            },
+            
+            setActive: function (id){
+                axios.post("controller/questionnaire.controller.php", {
+                    action: 'setActive',
+                    qstnnr_id: id
+                }).then(function(response){
+                    location.reload();
+                });
+            },
+            setInActive: function (id){
+                axios.post("controller/questionnaire.controller.php", {
+                    action: 'setInActive',
+                    qstnnr_id: id
+                }).then(function(response){
+                    location.reload();
+                });
             }
         }
     });

@@ -45,7 +45,7 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
         <template v-if="showJumbo">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="jumbotron">
+                    <div class="jumbotron" style="padding: 5px;">
                         <h1><?= $result_course[0]['crs_descriptitle'] ?></h1> 
                         <h4><?= $result_course[0]['crs_number']?></h4>
                     </div>
@@ -204,7 +204,7 @@ $result_qstnnr = DB::query($result_qstnnr, array(':qstnnr_id'=>$data['qstnnr_id'
     var app = new Vue({
         el: "#index",
         data: {
-             showJumbo: false, 
+             showJumbo: true, 
              showAddQuestion: false,
              qstn_question: '',
              a: '',

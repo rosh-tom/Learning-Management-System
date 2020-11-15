@@ -26,9 +26,8 @@
             $succes = true;
         }else{ 
             $succes = false;
-        } 
-
-      echo json_encode($succes);
+        }  
+      echo json_encode($result);
     }
     elseif($received_data->action == 'fetchAllQuestion'){
         $data = [

@@ -12,6 +12,7 @@ $result = "create table ". $tablename ." (
     qstnnr_item varchar(5), 
     usr_id int(11) not null,
     crs_id int(11) not null, 
+    active varchar(2) not null default '0'
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp on update current_timestamp
 )";

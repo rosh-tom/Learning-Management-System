@@ -6,6 +6,9 @@
     $result_course = "SELECT * FROM tbl_course WHERE crs_id = :crs_id";
     $result_course = DB::query($result_course, array(':crs_id'=>$_GET['course']));  
 
+    $questionnaireInfo = "SELECT * FROM tbl_questionnaire WHERE crs_id=:crs_id and qstnnr_id=:qstnnr_id";
+    $questionnaireInfo = DB::query($questionnaireInfo, array(':crs_id'=>$_GET['course'], ':qstnnr_id'=>$_GET['questionnaire']));
+
 ?>
 
             <div class="container">
@@ -55,8 +58,8 @@
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ CONTENT  -->
     <div class="row">  
         <div class="col-sm-12">   
-            <label for="">Exam Number 2</label>
-            <p class="paragraph"><b>instruction: </b> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident excepturi aut, ex blanditiis facere quidem repudiandae eligendi id illum quaerat libero inventore neque reprehenderit iure minima, sed pariatur consectetur enim.</p>
+            <label for=""><?= $questionnaireInfo[0]['qstnnr_title'] ?></label>
+            <p class="paragraph"><b>Instruction: </b> <?= $questionnaireInfo[0]['qstnnr_description'] ?></p>
         </div>
     </div>
 <?php 
@@ -83,8 +86,13 @@
                 <p> <?= $itemNumber++ ?>. <?= $question['qstn_question'] ?> </p> 
 <?php 
     $recoverAnswer = "SELECT answer FROM tbl_answer where qstn_id=:qstn_id";
-    $recoverAnswer = DB::query($recoverAnswer, array(':qstn_id'=>$question['qstn_id']))[0]['answer'];
-
+    $recoverAnswer = DB::query($recoverAnswer, array(':qstn_id'=>$question['qstn_id'])); 
+    if(count($recoverAnswer) > 0){ 
+        $countRecoverAnswer = 1;
+        $recoverAnswer = $recoverAnswer[0]['answer'];
+    }else{
+        $countRecoverAnswer = 0; 
+    }
 ?>
 
                 <div style="margin-left: 10px;">
@@ -94,7 +102,9 @@
                                 type="radio" 
                                 name="<?= $question['qstn_id'] ?>"
                                 @click="choose(<?= $question['qstn_id'] ?>, 'a')"
-                                <?= ($recoverAnswer == 'a')? 'checked':'' ?>
+                            <?php if($countRecoverAnswer > 0){ ?>
+                                    <?= ($recoverAnswer == 'a')? 'checked':'' ?>
+                            <?php } ?>
                                 >A. <?= $question['a'] ?>
                         </label>
                     </div>
@@ -103,8 +113,10 @@
                             <input type="radio"
                             name="<?= $question['qstn_id'] ?>"
                             @click="choose(<?= $question['qstn_id'] ?>, 'b')"
+                        <?php if($countRecoverAnswer > 0){ ?>
                             <?= ($recoverAnswer == 'b')? 'checked':'' ?>
-                            >B. <?= $question['b'] ?>
+                        <?php } ?>
+                            >B. <?= $question['b'] ?> 
                         </label>
                     </div>
                     <div class="radio">
@@ -112,7 +124,9 @@
                             <input type="radio" 
                             name="<?= $question['qstn_id'] ?>" 
                             @click="choose(<?= $question['qstn_id'] ?>, 'c')"
+                        <?php if($countRecoverAnswer > 0){ ?>
                             <?= ($recoverAnswer == 'c')? 'checked':'' ?>
+                        <?php } ?>
                             >C. <?= $question['c'] ?>
                         </label>
                     </div>
@@ -121,7 +135,9 @@
                             <input type="radio" 
                             name="<?= $question['qstn_id'] ?>" 
                             @click="choose(<?= $question['qstn_id'] ?>, 'd')"
+                        <?php if($countRecoverAnswer > 0){ ?>
                             <?= ($recoverAnswer == 'd')? 'checked':'' ?>
+                        <?php } ?>
                             >D. <?= $question['d'] ?>
                         </label>
                     </div> 
@@ -174,7 +190,11 @@
                     crs_id: <?= $_GET['course'] ?>,
                     qstnnr_id: <?= $_GET['questionnaire'] ?>
                 }).then(function(response){
-                     alert( response.data);
+                    if(!response.data){ 
+                        alert("Please answer all the items");
+                    }else{ 
+                        window.location.replace("questionnaire.php?course=<?= $_GET['course'] ?>");
+                    }
                 });
             }
         }

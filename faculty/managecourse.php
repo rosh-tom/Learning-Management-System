@@ -47,7 +47,7 @@ $results_post = DB::query($results_post, $data);
         <template v-if="showJumbo">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="jumbotron">
+                    <div class="jumbotron" style="padding: 5px;">
                         <h1><?= $result_course[0]['crs_descriptitle'] ?></h1> 
                         <h4><?= $result_course[0]['crs_number']?></h4>
                     </div>

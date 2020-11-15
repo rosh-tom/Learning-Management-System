@@ -76,9 +76,8 @@ elseif($received_data->action == 'submitQuestionnaire'){
     $checkAnswer = DB::query($checkAnswer, array(':usr_id'=>$data['usr_id'], 'qstnnr_id'=>$data['qstnnr_id']));
 
     if($checkAnswer < $checkItems){
-        $error = true;
-    }else{
-        $hello = "Not Hello";
+        $success = false;
+    }else{ 
         $saveScore = "INSERT INTO tbl_score (score, usr_id, qstnnr_id, crs_id) VALUES(
             :score, :usr_id, :qstnnr_id, :crs_id
         )";
@@ -88,9 +87,11 @@ elseif($received_data->action == 'submitQuestionnaire'){
             'qstnnr_id' => $data['qstnnr_id'], 
             'crs_id'    => $data['crs_id']
         ];
-        DB::query($saveScore, $saveScoreData);
-    } 
-    echo json_encode($error);
+        DB::query($saveScore, $saveScoreData); 
+        $success = true;
+    }  
+
+    echo json_encode($success);
 }
  
 

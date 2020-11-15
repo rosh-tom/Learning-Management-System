@@ -38,7 +38,7 @@ $result = DB::query($result, array(':crs_id'=>$crs_id, ':usr_id' => $_SESSION['l
         <template v-if="showJumbo">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="jumbotron">
+                    <div class="jumbotron" style="padding: 5px;">
                         <h1><?= $result[0]['crs_descriptitle'] ?></h1> 
                         <h4><?= $result[0]['crs_number']?></h4>
                     </div>
@@ -72,7 +72,7 @@ $result = DB::query($result, array(':crs_id'=>$crs_id, ':usr_id' => $_SESSION['l
     var app = new Vue({
         el: "#index",
         data: {
-             showJumbo: false, 
+             showJumbo: true, 
         },
         methods: {
             toggleShowJumbo: function(){

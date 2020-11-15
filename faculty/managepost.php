@@ -44,7 +44,7 @@ $result_post = DB::query($result_post, array(':pst_id'=>$data['pst_id']));
         <template v-if="showJumbo">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="jumbotron">
+                    <div class="jumbotron" style="padding: 5px;">
                         <h1><?= $result_course[0]['crs_descriptitle'] ?></h1> 
                         <h4><?= $result_course[0]['crs_number']?></h4>
                     </div>
@@ -121,7 +121,7 @@ $result_post = DB::query($result_post, array(':pst_id'=>$data['pst_id']));
     var app = new Vue({
         el: "#index",
         data: {
-             showJumbo: false, 
+             showJumbo: true, 
              showAddPost: false
         },
         methods: {
