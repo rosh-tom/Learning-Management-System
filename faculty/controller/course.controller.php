@@ -11,7 +11,7 @@ if(isset($_POST['btn_saveCourse'])){
         'crs_code'  => uniqid(),
         'usr_id'    => $_SESSION['loggedID']  
     ];
-    $result = "INSERT INTO tbl_course(crs_number, crs_section, crs_descriptitle, crs_time, crs_days, crs_code, usr_id) VALUES(
+    $result = "INSERT INTO tbl_course(crs_number, crs_section, crs_descriptitle, crs_time, crs_days, crs_accesscode, usr_id) VALUES(
                 :crs_number, :crs_section, :crs_descriptitle, :crs_time, :crs_days, :crs_code, :usr_id)";
 
     $result = DB::query($result, $data);  

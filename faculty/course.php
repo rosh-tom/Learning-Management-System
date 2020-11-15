@@ -32,6 +32,7 @@ $results = DB::query($results, array(':usr_id' => $_SESSION['loggedID']));
                             <p  class="paragrah"><?= ": ". $result['crs_number'] ." :" ?></p> 
                             <p  class="paragrah"><?= ": ".$result['crs_section'] ." : "?></p> 
                             <p  class="paragrah"><?= ": ".$result['crs_time']. " ". $result['crs_days']." : "?></p> 
+                            <p  class="paragrah">Access Code: <b class="text-primary"><?= $result['crs_accesscode'] ?></b></p> 
                         </div>
                         <div class="panel-heading">
                             <a href="managecourse.php?course=<?= $result['crs_id'] ?>" class="btn btn-default"> Manage </a> 

@@ -29,9 +29,8 @@
                         <!-- <li  class="active">Home </li> -->
                         <li><a href="course.php?course=<?= $_GET['course'] ?>">Home</a></li>
                         <li><a href="questionnaire.php?course=<?= $_GET['course'] ?>">Questionnaire</a></li>
-                        <li><a href="questionnaire.php?course=<?= $_GET['course'] ?>">Forums</a></li>
-                        <li><a href="questionnaire.php?course=<?= $_GET['course'] ?>">Students</a></li>
-                    </ol>
+                        <li><a href="forum.php?course=<?= $_GET['course'] ?>">Forums</a></li>
+                      </ol>
                 </div>
             </div> 
     </div>

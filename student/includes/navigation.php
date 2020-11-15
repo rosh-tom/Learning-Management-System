@@ -19,9 +19,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="list-group" style="margin-bottom: 10px; border-top: 1px solid #EEEEEE; margin-top: -30px; "  >  
-                    <a href="#" class="list-group-item active">Home</a>
+                    <!-- <a href="#" class="list-group-item active">Home</a>
                     <a href="#" class="list-group-item mymenu">Services</a>
-                    <a href="#" class="list-group-item mymenu">Accounts</a>
+                    <a href="#" class="list-group-item mymenu">Accounts</a> -->
                     <a href="../controller/logout.controller.php" class="list-group-item mymenu">Log Out</a>
                 </div> 
             </div> 
